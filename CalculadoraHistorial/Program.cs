@@ -10,7 +10,7 @@ ejemplo:    historial
 
 Calculadora InstCalculadora = new Calculadora();
 
-int continuar = 1;
+bool continuar = true;
 do
 {
     Console.WriteLine($"-> Resultado actual: {InstCalculadora.Resultado}");
@@ -22,54 +22,82 @@ do
         "3 - Multiplicar\n" +
         "4 - Dividir\n" +
         "5 - Limpiar\n" +
-        "0 - Salir"
+        "6 - Mostrar historial\n" +
+        "0 - Salir del programa"
     );
 
     Console.WriteLine("Ingrese el numero de operacion: ");
-            int eleccion = PedirNumeroInt();
-
-        switch (eleccion)
+        int eleccion;
+        do
         {
-            case 0: 
-                continuar = 0; 
-                Console.WriteLine("Programa finalizado");
-                break;
-
-            case 1: 
-                Console.Write($"Sumar: {InstCalculadora.Resultado} + ");
-                    double numSumar = PedirNumeroDouble();
-                InstCalculadora.Sumar(numSumar);
-                break;
-
-            case 2: 
-                Console.Write($"Restar: {InstCalculadora.Resultado} - ");
-                    double numRestar = PedirNumeroDouble();
-                InstCalculadora.Restar(numRestar);
-                break;
-
-            case 3: 
-                Console.Write($"Multiplicar: {InstCalculadora.Resultado} * ");
-                    double numMultiplicar = PedirNumeroDouble();
-                InstCalculadora.Multiplicar(numMultiplicar);
-                break;
-
-            case 4: 
-                Console.Write($"Dividir: {InstCalculadora.Resultado} / ");
-                    double numDividir = PedirNumeroDouble();
-                InstCalculadora.Dividir(numDividir);
-                break;
-
-            case 5:
-                InstCalculadora.Limpiar();
-                Console.WriteLine("Calculadora reiniciada.");
-                break;
-
-            default: 
-                Console.WriteLine("Opción no válida. Intente de nuevo.");
-                break;
-        }
+            eleccion = PedirNumeroInt();
+        } while (eleccion<0 || eleccion>6);
         
-} while (continuar == 1);    
+
+    switch (eleccion)
+    {
+        case 0: 
+            continuar = false; 
+            Console.WriteLine("Programa finalizado");
+            break;
+
+        case 1: 
+            Console.Write($"Sumar: {InstCalculadora.Resultado} + ");
+                double numSumar = PedirNumeroDouble();
+            InstCalculadora.Sumar(numSumar); //suma y agrega operacion al historial
+            break;
+
+        case 2: 
+            Console.Write($"Restar: {InstCalculadora.Resultado} - ");
+                double numRestar = PedirNumeroDouble();
+            InstCalculadora.Restar(numRestar);
+            break;
+
+        case 3: 
+            Console.Write($"Multiplicar: {InstCalculadora.Resultado} * ");
+                double numMultiplicar = PedirNumeroDouble();
+            InstCalculadora.Multiplicar(numMultiplicar);
+            break;
+
+        case 4: 
+            Console.Write($"Dividir: {InstCalculadora.Resultado} / ");
+                double numDividir = PedirNumeroDouble();
+            InstCalculadora.Dividir(numDividir);
+            break;
+
+        case 5:
+            InstCalculadora.Limpiar();
+            Console.WriteLine("Calculadora reiniciada.");
+            break;
+
+        case 6:
+            Console.WriteLine("--HISTORIAL--");
+            //revisar que no este vacio:
+            if (InstCalculadora.Historial.Count == 0)
+            {
+                Console.WriteLine("No hay operaciones en el historial.");
+            }else
+            {
+                foreach (Operacion op in InstCalculadora.Historial)
+                {
+                    if (op.PropOperacion == TipoOperacion.Limpiar)
+                    {
+                        Console.WriteLine($"{op.ResultadoAnterior} -> 0 (Limpiar)");
+                    }else
+                    {
+                        Console.WriteLine($"{op.ResultadoAnterior} {op.SimboloOperacion()} {op.NuevoValor} = {op.Resultado}");  
+                    }
+                }
+            }
+            
+            break;
+
+        default: 
+            Console.WriteLine("Opción no válida. Intente de nuevo.");
+            break;
+    }
+        
+} while (continuar);    
 
 
 static double PedirNumeroDouble()

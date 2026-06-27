@@ -44,8 +44,13 @@ namespace EspacioOperacion
             }
             
         }
-        
-        // Propiedad pública para acceder al nuevo valor utilizado en la operación 
+        //propiedad
+        public double ResultadoAnterior
+        {
+            get => resultadoAnterior;
+        }
+
+        // Propiedad para acceder al nuevo valor utilizado en la operación 
         public double NuevoValor
         { 
                 get {return nuevoValor;}
@@ -67,6 +72,30 @@ namespace EspacioOperacion
         } 
 
         //metodos
+        public string SimboloOperacion()
+        {
+            switch (operacion)
+            {
+                case TipoOperacion.Suma:
+                    return "+";
+                    
+                case TipoOperacion.Resta:
+                    return "-";
+
+                case TipoOperacion.Multiplicacion:
+                    return "*";
+
+                case TipoOperacion.Division:
+                    return "/";
+
+                case TipoOperacion.Limpiar:
+                    return "=";
+
+                default:
+                    return "?";
+            }
+
+        }
 
 
     }

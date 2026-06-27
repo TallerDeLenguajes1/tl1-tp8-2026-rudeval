@@ -3,7 +3,8 @@ namespace EspacioCalculadora
 {
     public class Calculadora 
     {
-        private double dato; //campo dato
+        //campos
+        private double dato; 
 
         //agregamos lista de objetos de tipo Operacion
         private List<Operacion> historial; 
